@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+ mongodb-pritunl:
+  container_name: mongodb-pritunl
+  image: dimaspratama04/mongodb-pritunl
+  ports:
+  - "27018:27017"
+  environment:
+   MONGO_INITDB_ROOT_USERNAME: pritunl
+   MONGO_INITDB_ROOT_PASSWORD: pritunl
+   MONGO_INITDB_ROOT_DATABSE: pritunl
+  networks:
+   - pritunl_network
+
+networks:
+ pritunl_network:
+  name: pritunl_network
+  driver: bridge

@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+
+# MongoDB
+ mongodb-pritunl:
+  container_name: mongodb-pritunl
+  image: mongo:latest
+  volumes: 
+   - "mongodb-volume:/data"
+  ports:
+  - "27018:27017"
+  networks:
+   - pritunl_network
+
+# Pritunl
+ pritunl-web:
+  container_name: pritunl-web
+  build: 
+   context: ./pritunl-web/ubuntu/
+   dockerfile: Dockerfile
+  image: dimaspratama04/pritunl-web
+  ports:
+   - "80:80"
+   - "443:443"
+   - "8080:8080"
+   - "1194:1194"
+  networks:
+   - pritunl_network
+  depends_on:
+   - mongodb-pritunl
+
+# Network
+networks:
+ pritunl_network:
+  name: pritunl_network
+  driver: bridge
+
+
+# Volumes
+volumes:
+ mongodb-volume:
+  name: mongodb-volume
