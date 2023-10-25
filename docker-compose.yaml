@@ -9,7 +9,7 @@ services:
   volumes: 
    - "mongodb-volume:/data"
   ports:
-  - "27018:27017"
+   - "27018:27017"
   networks:
    - pritunl_network
 
@@ -20,6 +20,7 @@ services:
    context: ./pritunl-web/ubuntu/
    dockerfile: Dockerfile
   image: dimaspratama04/pritunl-web
+  privileged: true
   ports:
    - "80:80"
    - "443:443"
@@ -29,7 +30,9 @@ services:
    - pritunl_network
   depends_on:
    - mongodb-pritunl
-
+  cap_add:
+   - NET_ADMIN
+ 
 # Network
 networks:
  pritunl_network:
